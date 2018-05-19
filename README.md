@@ -1,5 +1,5 @@
 # unfetcher
-[![Build Status](https://travis-ci.org/flaff/fetcher.svg?branch=master)](https://travis-ci.org/flaff/fetcher)
+[![Build Status](https://travis-ci.org/flaff/unfetcher.svg?branch=master)](https://travis-ci.org/flaff/fetcher)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > Fetch wrapper for creating predefined requests
 

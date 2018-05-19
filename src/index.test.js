@@ -10,7 +10,7 @@ const
         new Promise((resolve, reject) =>
             rejects
                 ? reject(rejects)
-                : resolve({json: () => resolves})
+                : resolve({json: () => resolves, ok: true})
         );
 
 it('should create using new', () => {
@@ -41,20 +41,38 @@ it('should pass correct string payload', (done) => {
     (new Fetcher({url: TEST_URL})).fetch(TEST_STRING_PAYLOAD);
 });
 
-it('should stringify object payload', (done) => {
-    Fetcher.f = (url, request) => {
-        expect(request.body).toBe(JSON.stringify(TEST_PAYLOAD));
-        done();
-        return stubFetchPromise();
-    };
-    (new Fetcher({url: TEST_URL})).fetch(TEST_PAYLOAD);
-});
-
-it('should parse string payload', (done) => {
+it('should parse response data', (done) => {
     Fetcher.f = () => stubFetchPromise(TEST_RESPONSE);
     (new Fetcher({url: TEST_URL})).fetch()
         .then(data => {
             expect(data).toMatchObject(TEST_RESPONSE);
+            done();
+        });
+});
+
+it('should use default "Fetcher.check" as check method if none provided', (done) => {
+    sinon.spy(Fetcher, 'check');
+    Fetcher.f = () => stubFetchPromise(TEST_RESPONSE);
+    (new Fetcher({url: TEST_URL})).fetch()
+        .then(() => {
+            expect(Fetcher.check.called).toBeTruthy();
+            Fetcher.check.restore();
+            done();
+        });
+});
+
+it('should use provided check method', (done) => {
+    Fetcher.f = () => stubFetchPromise(TEST_RESPONSE);
+    const config = {
+        url: TEST_URL,
+        check: (r) => r
+    };
+
+    sinon.spy(config, 'check');
+
+    (new Fetcher(config)).fetch()
+        .then(() => {
+            expect(config.check.called).toBeTruthy();
             done();
         });
 });
