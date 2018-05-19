@@ -1,6 +1,6 @@
 {
   "name": "unfetcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tiny fetch wrapper for creating predefined requests with typescript support",
   "main": "dist/unfetcher.js",
   "module": "dist/unfetcher.es.js",
