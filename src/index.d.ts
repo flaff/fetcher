@@ -3,9 +3,9 @@ declare namespace unfetcher {
 
     interface Options<Payload> {
         /** URL or function returning URL. Function receives request params as argument. */
-        url: string | ((p?: Payload) => string);
+        url: string | ((payload?: Payload) => string);
         /** Method to transform request body before sending. */
-        transform?: (p: Payload) => any;
+        transform?: (payload: Payload) => any;
         /** Use cookies in request. Defaults to "include". */
         credentials?: 'include' | 'omit';
         /** Allows multiple request of same type without aborting. Defaults to "false". */
@@ -33,19 +33,19 @@ declare namespace unfetcher {
     }
 }
 
-export default class Fetcher<ResponseModel, Payload> {
+export default class Fetcher<ResponseModel, Payload = void> {
     constructor(options: unfetcher.Options<Payload>);
     /** Automatically parses response as JSON. */
-    fetch(params?: Payload): Promise<ResponseModel>;
+    fetch(payload?: Payload): Promise<ResponseModel>;
     /** More classic-like fetch call. Returns Response instead of parsed data. */
-    fetchR(params?: Payload): Promise<unfetcher.Response<ResponseModel>>;
+    fetchR(payload?: Payload): Promise<unfetcher.Response<ResponseModel>>;
     /** Aborts current Fetcher request if any */
     abort: () => void;
     /**
      * Fetch function called inside. Can be replaced with fetch ponyfill. Defaults to "window.fetch".
      * @see window.fetch
      */
-    static f: (url: string, opts: any) => Promise<any>;
+    static f: (url: string, options: any) => Promise<any>;
     static onCatch: (error: any) => Promise<any>;
     /** Default response check method that decides when to reject. Rejects when response.ok is false. */
     static check: (response: any) => Promise<any>;
