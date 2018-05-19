@@ -1,6 +1,9 @@
 # unfetcher
+![npm](https://img.shields.io/npm/v/unfetcher.svg)
 [![Build Status](https://travis-ci.org/flaff/unfetcher.svg?branch=master)](https://travis-ci.org/flaff/fetcher)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![npm](https://img.shields.io/npm/l/unfetcher.svg)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/unfetcher.svg)](https://bundlephobia.com/result?p=unfetcher)
+
 > Fetch wrapper for creating predefined requests
 
 ## Install
@@ -13,6 +16,11 @@ Import in your module bundler
 ```javascript
 import Fetcher from 'unfetcher'; // ES6
 var Fetcher = require('unfetcher'); // CommonJS
+```
+
+Or expose globally as `Unfetcher` using [UMD](https://github.com/umdjs/umd) build from [unpkg](https://unpkg.com)
+```html
+<script src="//unpkg.com/unfetcher/dist/unfetcher.umd.js"></script>
 ```
 
 ## Usage

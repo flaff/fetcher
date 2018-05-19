@@ -1,9 +1,9 @@
 declare namespace unfetcher {
     type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE';
 
-    interface Options<Payload> {
+    interface Options<R, Payload> {
         /** URL or function returning URL. Function receives request params as argument. */
-        url: string | ((payload?: Payload) => string);
+        url: string | ((payload: Payload) => string);
         /** Method to transform request body before sending. */
         transform?: (payload: Payload) => any;
         /** Use cookies in request. Defaults to "include". */
@@ -16,29 +16,29 @@ declare namespace unfetcher {
          * Response check method that decides when to reject. Defaults to "Fetcher.check".
          * @see Fetcher.check
          */
-        check?: (response: any) => Promise<any>;
+        check?: (response: Response<R>) => Promise<any>;
         headers?: {[key: string]: string};
     }
 
-    interface Response<ResponseModel> {
+    interface Response<R> {
         ok: boolean;
         status: number;
         statusText: string;
         url: string;
-        clone: Response<ResponseModel>;
+        clone: Response<R>;
         text: () => string;
-        json: () => ResponseModel;
+        json: () => R;
         blob: () => Blob;
         headers: {[key: string]: string};
     }
 }
 
-export default class Fetcher<ResponseModel, Payload = void> {
-    constructor(options: unfetcher.Options<Payload>);
+export default class Fetcher<Response, Payload = void> {
+    constructor(options: unfetcher.Options<Response, Payload>);
     /** Automatically parses response as JSON. */
-    fetch(payload?: Payload): Promise<ResponseModel>;
+    fetch(payload?: Payload): Promise<Response>;
     /** More classic-like fetch call. Returns Response instead of parsed data. */
-    fetchR(payload?: Payload): Promise<unfetcher.Response<ResponseModel>>;
+    fetchR(payload?: Payload): Promise<unfetcher.Response<Response>>;
     /** Aborts current Fetcher request if any */
     abort: () => void;
     /**

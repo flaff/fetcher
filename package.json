@@ -1,6 +1,6 @@
 {
   "name": "unfetcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tiny fetch wrapper for creating predefined requests with typescript support",
   "main": "dist/unfetcher.js",
   "module": "dist/unfetcher.es.js",
@@ -12,7 +12,7 @@
     "build": "npm-run-all --silent clean -p rollup:* -p minify:* -s size",
     "clean": "rimraf dist && mkdirp dist",
     "rollup:cjs": "cross-env FORMAT=cjs rollup -c rollup.config.js -f cjs -n unfetcher -o dist/unfetcher.js",
-    "rollup:umd": "cross-env FORMAT=umd rollup -c rollup.config.js -f umd -n unfetcher -o dist/unfetcher.umd.js",
+    "rollup:umd": "cross-env FORMAT=umd rollup -c rollup.config.js -f umd -n Unfetcher -o dist/unfetcher.umd.js",
     "rollup:esm": "rollup -c rollup.config.js -f es -n unfetcher -o dist/unfetcher.es.js",
     "minify:cjs": "uglifyjs dist/unfetcher.js -cm toplevel -o dist/unfetcher.js --in-source-map dist/unfetcher.js.map",
     "minify:umd": "uglifyjs dist/unfetcher.umd.js -cm -o dist/unfetcher.umd.js --in-source-map dist/unfetcher.umd.js.map",
