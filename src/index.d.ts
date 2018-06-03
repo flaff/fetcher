@@ -45,11 +45,11 @@ export default class Fetcher<Response, Payload = void> {
      * Fetch function called inside. Can be replaced with fetch ponyfill. Defaults to "window.fetch".
      * @see window.fetch
      */
-    static f: (url: string, options: any) => Promise<any>;
+    static fetch: (url: string, options: any) => Promise<any>;
     /**
      * AbortController to be used inside.
      */
-    static C: any;
+    static ac?: AbortController;
     static onCatch: (error: any) => Promise<any>;
     /** Default response check method that decides when to reject. Rejects when response.ok is false. */
     static check: (response: any) => Promise<any>;
@@ -57,6 +57,7 @@ export default class Fetcher<Response, Payload = void> {
     static headers?: {[key: string]: string};
     /** Default credentials parameter used if none specified */
     static credentials?: string;
+    static transform?: string;
 }
 
 declare module 'fetcher' {

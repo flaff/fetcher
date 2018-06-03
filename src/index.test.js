@@ -26,14 +26,14 @@ it('should call provided static "Fetcher.f" fetch function', () => {
         fetchStub = sinon.stub();
 
     fetchStub.returns(new Promise((resolve) => resolve({})));
-    Fetcher.f = fetchStub;
+    Fetcher.fetch = fetchStub;
 
     testFetcher.fetch();
     expect(fetchStub.called).toBe(true);
 });
 
 it('should pass correct string payload', (done) => {
-    Fetcher.f = (url, request) => {
+    Fetcher.fetch = (url, request) => {
         expect(request.body).toBe(TEST_STRING_PAYLOAD);
         done();
         return stubFetchPromise();
@@ -42,7 +42,7 @@ it('should pass correct string payload', (done) => {
 });
 
 it('should parse response data', (done) => {
-    Fetcher.f = () => stubFetchPromise(TEST_RESPONSE);
+    Fetcher.fetch = () => stubFetchPromise(TEST_RESPONSE);
     (new Fetcher({url: TEST_URL})).fetch()
         .then(data => {
             expect(data).toMatchObject(TEST_RESPONSE);
@@ -52,7 +52,7 @@ it('should parse response data', (done) => {
 
 it('should use default "Fetcher.check" as check method if none provided', (done) => {
     sinon.spy(Fetcher, 'check');
-    Fetcher.f = () => stubFetchPromise(TEST_RESPONSE);
+    Fetcher.fetch = () => stubFetchPromise(TEST_RESPONSE);
     (new Fetcher({url: TEST_URL})).fetch()
         .then(() => {
             expect(Fetcher.check.called).toBeTruthy();
@@ -62,7 +62,7 @@ it('should use default "Fetcher.check" as check method if none provided', (done)
 });
 
 it('should use provided check method', (done) => {
-    Fetcher.f = () => stubFetchPromise(TEST_RESPONSE);
+    Fetcher.fetch = () => stubFetchPromise(TEST_RESPONSE);
     const config = {
         url: TEST_URL,
         check: (r) => r

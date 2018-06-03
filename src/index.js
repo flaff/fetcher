@@ -8,15 +8,17 @@ function Fetcher (options) {
         this.fetchR(params).then(r => r.json());
 
     this.fetchR = (params) => {
+        const transform = options.transform || Fetcher.transform;
+
         if (!options.multiple) {
             this.abort();
-            controller = Fetcher.C && new Fetcher.C();
+            controller = Fetcher.ac && new Fetcher.ac();
         }
 
-        return Fetcher.f(options.url.call ? options.url(params) : options.url, {
+        return Fetcher.fetch(options.url.call ? options.url(params) : options.url, {
             credentials: options.credentials || Fetcher.credentials,
             headers: options.headers || Fetcher.headers,
-            body: options.transform ? options.transform(params) : params,
+            body: transform ? transform(params) : params,
             signal: controller && controller.signal,
             method: options.method
         })
@@ -25,8 +27,8 @@ function Fetcher (options) {
     };
 }
 
-Fetcher.f = typeof fetch === 'function' && fetch.bind();
-Fetcher.C = typeof AbortController === 'function' && AbortController;
+Fetcher.fetch = typeof fetch === 'function' && fetch.bind();
+Fetcher.ac = typeof AbortController === 'function' && AbortController;
 
 function _throw(e) {
     throw e;
