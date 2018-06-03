@@ -53,6 +53,10 @@ export default class Fetcher<Response, Payload = void> {
     static onCatch: (error: any) => Promise<any>;
     /** Default response check method that decides when to reject. Rejects when response.ok is false. */
     static check: (response: any) => Promise<any>;
+    /** Default headers used if none specified */
+    static headers?: {[key: string]: string};
+    /** Default credentials parameter used if none specified */
+    static credentials?: string;
 }
 
 declare module 'fetcher' {

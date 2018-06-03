@@ -14,8 +14,8 @@ function Fetcher (options) {
         }
 
         return Fetcher.f(options.url.call ? options.url(params) : options.url, {
-            credentials: options.credentials || 'include',
-            headers: options.headers,
+            credentials: options.credentials || Fetcher.credentials,
+            headers: options.headers || Fetcher.headers,
             body: options.transform ? options.transform(params) : params,
             signal: controller && controller.signal,
             method: options.method
