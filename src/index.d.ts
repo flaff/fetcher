@@ -57,7 +57,7 @@ export default class Fetcher<Response, Payload = void> {
     static headers?: {[key: string]: string};
     /** Default credentials parameter used if none specified */
     static credentials?: string;
-    static transform?: string;
+    static transform?: (params: any) => any;
 }
 
 declare module 'fetcher' {
