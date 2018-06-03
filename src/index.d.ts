@@ -46,6 +46,10 @@ export default class Fetcher<Response, Payload = void> {
      * @see window.fetch
      */
     static f: (url: string, options: any) => Promise<any>;
+    /**
+     * AbortController to be used inside.
+     */
+    static C: any;
     static onCatch: (error: any) => Promise<any>;
     /** Default response check method that decides when to reject. Rejects when response.ok is false. */
     static check: (response: any) => Promise<any>;
