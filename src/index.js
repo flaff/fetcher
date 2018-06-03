@@ -26,7 +26,7 @@ function Fetcher (options) {
 }
 
 Fetcher.f = typeof fetch === 'function' && fetch.bind();
-Fetcher.C = typeof AbortController === 'function' && AbortController.prototype;
+Fetcher.C = typeof AbortController === 'function' && AbortController;
 
 function _throw(e) {
     throw e;
