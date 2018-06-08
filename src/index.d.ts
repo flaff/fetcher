@@ -1,23 +1,28 @@
 declare namespace unfetcher {
     type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE';
 
-    interface Options<R, Payload> {
+    interface Options<ResponseType, Payload> {
         /** URL or function returning URL. Function receives request params as argument. */
         url: string | ((payload: Payload) => string);
-        /** Method to transform request body before sending. */
-        transform?: (payload: Payload) => any;
-        /** Use cookies in request. Defaults to "include". */
-        credentials?: 'include' | 'omit';
-        /** Allows multiple request of same type without aborting. Defaults to "false". */
-        multiple?: boolean;
-        /** Request type. Defaults to 'get'.*/
+        /** Request type. Defaults to `GET`.*/
         method?: Method;
+        /** Use cookies in request. Defaults to Fetcher.credentials (none by default) or `include` */
+        credentials?: 'include' | 'omit';
+        /** Map of headers to be included. Defaults to Fetcher.headers (none by default) */
+        headers?: {[key: string]: string};
+        /** Method to transform request body and/or request before sending. Defaults to Fetcher.prepare (none by default) */
+        prepare?: (params?: Payload, request?: Request) => any;
+        /** Method to parse response from server called inside `fetch` before resolve. Also available as `transform` in response of `fetchR`. */
+        transform?: (request?: Request) => ResponseType;
+        /** Allows multiple request of same type without aborting. Defaults to `false`. */
+        multiple?: boolean;
         /**
-         * Response check method that decides when to reject. Defaults to "Fetcher.check".
+         * Response check method that decides when to reject. Defaults to `Fetcher.check`.
          * @see Fetcher.check
          */
-        check?: (response: Response<R>) => Promise<any>;
-        headers?: {[key: string]: string};
+        check?: (response: Response<ResponseType>) => Promise<any>;
+        /** Time in milliseconds to timeout */
+        timeout?: number;
     }
 
     interface Response<R> {
@@ -30,6 +35,8 @@ declare namespace unfetcher {
         json: () => R;
         blob: () => Blob;
         headers: {[key: string]: string};
+
+        transform: () => R;
     }
 }
 
@@ -41,15 +48,6 @@ export default class Fetcher<Response, Payload = void> {
     fetchR(payload?: Payload): Promise<unfetcher.Response<Response>>;
     /** Aborts current Fetcher request if any */
     abort: () => void;
-    /**
-     * Fetch function called inside. Can be replaced with fetch ponyfill. Defaults to "window.fetch".
-     * @see window.fetch
-     */
-    static fetch: (url: string, options: any) => Promise<any>;
-    /**
-     * AbortController to be used inside.
-     */
-    static ac?: AbortController;
     static onCatch: (error: any) => Promise<any>;
     /** Default response check method that decides when to reject. Rejects when response.ok is false. */
     static check: (response: any) => Promise<any>;
@@ -57,7 +55,13 @@ export default class Fetcher<Response, Payload = void> {
     static headers?: {[key: string]: string};
     /** Default credentials parameter used if none specified */
     static credentials?: string;
-    static transform?: (params: any) => any;
+    /** Default method to transform request body and/or request before sending. (none by default) */
+    static prepare?: (params: any, request: Request) => any;
+    /** Method to parse response from server called inside "fetch" before resolve instead of "JSON.stringify" if provided.
+     * Also available as "transform" in response of "fetchR". (none by default) */
+    static transform?: (request: Request) => any;
+    /** Time in milliseconds to timeout */
+    static timeout?: number;
 }
 
 declare module 'fetcher' {

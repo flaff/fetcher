@@ -2,7 +2,7 @@ import buble from 'rollup-plugin-buble';
 import replace from 'rollup-plugin-post-replace';
 
 export default {
-    entry: 'src/index.js',
+    input: 'src/index.js',
     output: {
         sourcemap: true,
         strict: false
