@@ -2,7 +2,7 @@
 ![npm](https://img.shields.io/npm/v/unfetcher.svg)
 [![Build Status](https://travis-ci.org/flaff/unfetcher.svg?branch=master)](https://travis-ci.org/flaff/fetcher)
 ![npm](https://img.shields.io/npm/l/unfetcher.svg)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/unfetcher.svg)](https://bundlephobia.com/result?p=unfetcher)
+[![npm bundle size (minified + gzip)](http://img.badgesize.io/https://unpkg.com/unfetcher/dist/unfetcher.js?compression=gzip)](https://bundlephobia.com/result?p=unfetcher)
 
 > [unfetch](https://github.com/developit/unfetch) wrapper for creating predefined abortable requests with Typescript support
 
