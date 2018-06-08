@@ -92,6 +92,6 @@ Fetcher.check = (response) =>
     response.ok ? response : _throw(response);
 
 Fetcher.onCatch = (error) =>
-    error.message != 'ABORT' && _throw(error);
+    error.message != 'ABORTED' && _throw(error);
 
 export default Fetcher;
