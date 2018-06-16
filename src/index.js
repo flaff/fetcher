@@ -33,12 +33,16 @@ function Fetcher(options) {
                 request.withCredentials = (options.credentials || Fetcher.credentials) == 'include';
 
                 request.timeout = timeout;
+
                 request.ontimeout = () => {
                     reject(new Error('TIMEOUT'));
                 };
 
+                request.onerror = () => {
+                    reject(new Error('ERROR'));
+                };
+
                 request.onload = () => {
-                    abort = null;
                     resolve(response());
                 };
 
